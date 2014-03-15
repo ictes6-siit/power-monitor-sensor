@@ -16,3 +16,5 @@
 *.exe
 *.out
 *.app
+MDK-ARM/power_monitor/
+MDK-ARM/power_monitor_power_monitor.dep
