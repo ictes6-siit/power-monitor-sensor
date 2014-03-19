@@ -478,6 +478,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rtc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -526,16 +531,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>App</GroupName>
-          <Files>
-            <File>
-              <FileName>app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\app.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>USB Config</GroupName>
           <Files>
             <File>
@@ -556,12 +551,37 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Interrupt</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32fxxx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\stm32fxxx_it.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>HAL</GroupName>
           <Files>
             <File>
               <FileName>usb.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\rtc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
+            <File>
+              <FileName>app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\app.c</FilePath>
             </File>
           </Files>
         </Group>
