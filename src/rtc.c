@@ -13,44 +13,16 @@ static void RTC_Config(void);
 static void RTC_TimeRegulate(void);
 
 void rtcInit(void){
+	/* RTC configuration  */
+	RTC_Config();
+	
 	// If RTC is not set.
 	if (RTC_ReadBackupRegister(RTC_BKP_DR0) != 0x32F2)
   {
-		/* RTC configuration  */
-    RTC_Config();
-	
 		/* Configure the time&date register */
     RTC_TimeRegulate();
 		
 	} else {
-
-#if defined (RTC_CLOCK_SOURCE_LSI)  /* LSI used as RTC source clock*/
-		/* The RTC Clock may varies due to LSI frequency dispersion. */
-		/* Enable the LSI OSC */
-		RCC_LSICmd(ENABLE);
-
-		/* Wait till LSI is ready */
-		while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET)
-		{
-		}
-
-		/* Select the RTC Clock Source */
-		RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
-
-
-		/* Enable the RTC Clock */
-		RCC_RTCCLKCmd(ENABLE);
-#elif defined (RTC_CLOCK_SOURCE_LSE) /* LSE used as RTC source clock */
-		/* Enable the PWR clock */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-
-    /* Allow access to RTC */
-    PWR_BackupAccessCmd(ENABLE);
-#endif /* RTC_CLOCK_SOURCE_LSE */
-
-    /* Wait for RTC APB registers synchronisation */
-    RTC_WaitForSynchro();
-
     /* Clear the RTC Alarm Flag */
     RTC_ClearFlag(RTC_FLAG_ALRAF);
 
@@ -59,23 +31,25 @@ void rtcInit(void){
 	}
 }
 
-void rtcGet(RTC_TimeTypeDef* time, RTC_DateTypeDef* date){
+void rtcGet(RTC_TimeTypeDef* time, RTC_DateTypeDef* date){	
 	/* Get Time hh:mm:ss */
-  RTC_GetTime(RTC_Format_BCD, time);
+  RTC_GetTime(RTC_Format_BIN, time);
 	
 	/* Get Date Week/Date/Month/Year */
-	RTC_GetDate(RTC_Format_BCD, date);
+	RTC_GetDate(RTC_Format_BIN, date);
 }
 
 void rtcSet(RTC_TimeTypeDef* time, RTC_DateTypeDef* date){
+	/*** Unlock RTC Registers ***/
+	RTC_WriteProtectionCmd(DISABLE); // Disable RTC register write protection
+	
 	/* Set Time hh:mm:ss */
-	RTC_SetTime(RTC_Format_BCD, time);
+	RTC_SetTime(RTC_Format_BIN, time);
 	
 	/* Set Date Week/Date/Month/Year */
-	RTC_SetDate(RTC_Format_BCD, date);
+	RTC_SetDate(RTC_Format_BIN, date);
 	
-	/* Write BkUp DR0 */
-  RTC_WriteBackupRegister(RTC_BKP_DR0, 0x32F2);
+	RTC_WriteProtectionCmd(ENABLE); // Enable RTC register write protection
 }
 
 /**
@@ -109,7 +83,7 @@ static void RTC_Config(void)
   RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
   
   /* ck_spre(1Hz) = RTCCLK(LSI) /(uwAsynchPrediv + 1)*(uwSynchPrediv + 1)*/
-  uwSynchPrediv = 0xFF;
+  uwSynchPrediv = 0xF9;
   uwAsynchPrediv = 0x7F;
 
 #elif defined (RTC_CLOCK_SOURCE_LSE) /* LSE used as RTC source clock */
@@ -124,7 +98,7 @@ static void RTC_Config(void)
   /* Select the RTC Clock Source */
   RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
   /* ck_spre(1Hz) = RTCCLK(LSE) /(uwAsynchPrediv + 1)*(uwSynchPrediv + 1)*/
-  uwSynchPrediv = 0xFF;
+  uwSynchPrediv = 0xF9;
   uwAsynchPrediv = 0x7F;
     
 #else
@@ -146,10 +120,7 @@ static void RTC_Config(void)
   RCC_RTCCLKCmd(ENABLE);
   
   /* Wait for RTC APB registers synchronisation */
-  RTC_WaitForSynchro();
-  
-  /* Enable The TimeStamp */
-  RTC_TimeStampCmd(RTC_TimeStampEdge_Falling, ENABLE);    
+  RTC_WaitForSynchro(); 
 }
 
 /**
@@ -166,14 +137,14 @@ static void RTC_TimeRegulate(void)
   RTC_TimeStructure.RTC_Hours   = 0x08;  
   RTC_TimeStructure.RTC_Minutes = 0x10;
   RTC_TimeStructure.RTC_Seconds = 0x00;
-  RTC_SetTime(RTC_Format_BCD, &RTC_TimeStructure);
+  RTC_SetTime(RTC_Format_BIN, &RTC_TimeStructure);
 
   /* Set Date Week/Date/Month/Year */
   RTC_DateStructure.RTC_WeekDay = 01;
   RTC_DateStructure.RTC_Date = 0x31;
   RTC_DateStructure.RTC_Month = 0x12;
   RTC_DateStructure.RTC_Year = 0x12;
-  RTC_SetDate(RTC_Format_BCD, &RTC_DateStructure);
+  RTC_SetDate(RTC_Format_BIN, &RTC_DateStructure);
   
   /* Write BkUp DR0 */
   RTC_WriteBackupRegister(RTC_BKP_DR0, 0x32F2);
