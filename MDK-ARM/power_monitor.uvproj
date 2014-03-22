@@ -576,6 +576,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Logic</GroupName>
+          <Files>
+            <File>
+              <FileName>cmd_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\cmd_manager.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>App</GroupName>
           <Files>
             <File>

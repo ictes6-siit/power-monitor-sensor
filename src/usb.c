@@ -40,6 +40,8 @@ CDC_IF_Prop_TypeDef CDC_fops =
   CDC_DataRx
 };
 
+extern void CDC_DataRx_Handler (uint8_t* Buf, uint32_t Len);
+
 /* Private function prototypes -----------------------------------------------*/
 extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
 extern uint32_t USBD_OTG_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
@@ -199,14 +201,7 @@ static uint16_t CDC_DataTx (uint8_t* Buf, uint32_t Len)
   */
 static uint16_t CDC_DataRx (uint8_t* Buf, uint32_t Len)
 {
-  uint32_t i;
-  
-  /* Send the received buffer */
-  for (i = 0; i < Len; i++)
-  {
-    fputc(*(Buf + i), 0);
-  } 
- 
+	CDC_DataRx_Handler(Buf, Len);
   return USBD_OK;
 }
 
