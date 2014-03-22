@@ -35,6 +35,7 @@ int main(void) {
 	while(1) {
 		if(BurstMode_Enabled) {
 			rtcGet(&time, &date);
+			cmd.status = CmdStatus_Success;
 			cmd.year = date.RTC_Year;
 			cmd.month = date.RTC_Month;
 			cmd.date = date.RTC_Date;

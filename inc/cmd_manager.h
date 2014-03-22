@@ -47,6 +47,7 @@ typedef struct CmdTx_DisableBurst_Confirm
 
 typedef struct CmdTx_RmsChanged_Report
 {
+	uint8_t status;
 	uint8_t year;
 	uint8_t month;
 	uint8_t date;
