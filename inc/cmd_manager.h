@@ -11,13 +11,13 @@ typedef enum {
 
 typedef enum {
 	/* Configuration */
-	CmdTx_Calibrate_Confirm = 0xA0,
+	CmdTx_Calibrate_Confirm = 0xB0,
 	
 	/* Burst Mode */
-	CmdTx_EnableBurst_Confirm = 0xB0,
-	CmdTx_DisableBurst_Confirm = 0xB1,
+	CmdTx_EnableBurst_Confirm = 0xB1,
+	CmdTx_DisableBurst_Confirm = 0xB2,
 	
-	CmdTx_RmsChanged_Report = 0xB2,
+	CmdTx_RmsChanged_Report = 0xC0,
 } CmdTx;
 
 typedef enum CmdRx {
@@ -25,8 +25,8 @@ typedef enum CmdRx {
 	CmdRx_Calibrate_Request = 0xA0,
 	
 	/* Burst Mode */
-	CmdRx_EnableBurst_Request = 0xB0,
-	CmdRx_DisableBurst_Request = 0xB1,
+	CmdRx_EnableBurst_Request = 0xA1,
+	CmdRx_DisableBurst_Request = 0xA2,
 } CmdRx_t;
 
 /* ---------------- Command Tx ----------------- */
