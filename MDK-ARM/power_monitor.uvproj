@@ -357,7 +357,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40XX HSE_VALUE=8000000 USE_STDPERIPH_DRIVER USE_USB_OTG_FS USE_ULPI_PHY</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\STM32_USB_OTG_Driver\inc;..\..\Libraries\STM32_USB_Device_Library\Core\inc;..\..\Libraries\CMSIS\Include;..\..\Utilities\STM32_EVAL;..\..\Utilities\STM32_EVAL\Common;..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL;..\..\Libraries\STM32_USB_Device_Library\Class\cdc\inc;..\inc</IncludePath>
+              <IncludePath>..\inc;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\STM32_USB_OTG_Driver\inc;..\..\Libraries\STM32_USB_Device_Library\Core\inc;..\..\Libraries\CMSIS\Include;..\..\Utilities\STM32_EVAL\Common;..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL;..\..\Libraries\STM32_USB_Device_Library\Class\cdc\inc;..\..\Utilities\STM32_EVAL</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -483,6 +483,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rtc.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -491,17 +501,17 @@
             <File>
               <FileName>usb_core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_OTG_Driver\src\usb_core.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_OTG_Driver\src\usb_core.c</FilePath>
             </File>
             <File>
               <FileName>usb_dcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_OTG_Driver\src\usb_dcd.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_OTG_Driver\src\usb_dcd.c</FilePath>
             </File>
             <File>
               <FileName>usb_dcd_int.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_OTG_Driver\src\usb_dcd_int.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_OTG_Driver\src\usb_dcd_int.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -511,22 +521,22 @@
             <File>
               <FileName>usbd_core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_Device_Library\Core\src\usbd_core.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_Device_Library\Core\src\usbd_core.c</FilePath>
             </File>
             <File>
               <FileName>usbd_ioreq.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_Device_Library\Core\src\usbd_ioreq.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_Device_Library\Core\src\usbd_ioreq.c</FilePath>
             </File>
             <File>
               <FileName>usbd_req.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_Device_Library\Core\src\usbd_req.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_Device_Library\Core\src\usbd_req.c</FilePath>
             </File>
             <File>
               <FileName>usbd_cdc_core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32_USB_Device_Library\Class\cdc\src\usbd_cdc_core.c</FilePath>
+              <FilePath>D:\l\STM32_USB-Host-Device_Lib_V2.1.0\Libraries\STM32_USB_Device_Library\Class\cdc\src\usbd_cdc_core.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -597,6 +607,21 @@
               <FileName>cmd_handler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\cmd_handler.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>PU</GroupName>
+          <Files>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\led.c</FilePath>
             </File>
           </Files>
         </Group>

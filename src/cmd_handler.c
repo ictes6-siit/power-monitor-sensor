@@ -5,6 +5,7 @@
 #define Cmd_Callback CMD_CB
 
 extern uint8_t BurstMode_Enabled;
+extern uint8_t Calibrate_Enabled;
 
 /* Private function prototypes -----------------------------------------------*/
 static void CB_CmdRx_Calibrate_Request     (CmdRx_Calibrate_Request_t *req);   
@@ -33,6 +34,8 @@ static void CB_CmdRx_Calibrate_Request(CmdRx_Calibrate_Request_t *req)
 	time.RTC_Seconds = req->seconds;
 	
 	rtcSet(&time, &date);
+	
+	Calibrate_Enabled = 1;
 	
 	resp.status = CmdStatus_Success;
 	sendCmd(CmdTx_Calibrate_Confirm, (uint8_t*)&resp, sizeof(CmdTx_Calibrate_Confirm_t));
