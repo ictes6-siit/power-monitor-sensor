@@ -162,6 +162,10 @@ void ReceiveRef(float Ref[3]){
 	Ref[1] = sum[1]/(float)NumofMid;
 	Ref[2] = sum[2]/(float)NumofMid;
 		
+	sum[0] = 0;
+	sum[1] = 0;
+	sum[2] = 0;
+	
 	count = 0;
 		
 }
