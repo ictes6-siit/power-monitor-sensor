@@ -88,7 +88,6 @@ void TIM3_IRQHandler(void){
 	
   if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
   {				
-		
 		if(count < sampling*2)
 		{
 			ADC1array[count] = (adcRead1()*VoltMax/ADCvalue);
@@ -265,12 +264,13 @@ int main(void) {
 	RTC_DateTypeDef date;
 	CmdTx_RmsChanged_Report_t cmd;
 	
-	int   period;
+	int   period,sec;
 	float RefRMS[3] = {0.7,0.7,0.7},RMS[3];
 	float ref[3] = {1.65,1.65,1.65};
 	uint8_t PercentRMS[3];
 	float tmpPercentRMST[3];
 	
+	int temp=0;
 	// setup
   ledInit();
  	adcInit();
@@ -318,7 +318,13 @@ int main(void) {
 				tmpPercentRMST[0] = PercentRMS[0];
 				tmpPercentRMST[1] = PercentRMS[1];
 				tmpPercentRMST[2] = PercentRMS[2];
+				sec = time.RTC_Seconds;
 			}
+		}
+		if(sec != time.RTC_Seconds && temp == 0)
+		{
+			msec =0;
+			temp = 1;
 		}
 	}
 }
