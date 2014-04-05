@@ -9,11 +9,11 @@
 
 #define VoltMax  3.3
 #define ADCvalue 4095
-#define sampling 10
+#define sampling 20
 #define Prescale 2000
 #define NumofMid 10
 
-volatile uint32_t msec = 0;
+volatile uint16_t msec = 0;
 volatile uint8_t BurstMode_Enabled = 0;
 volatile uint8_t Calibrate_Enabled = 0;
 
@@ -29,11 +29,18 @@ uint8_t toggleIT = 0;
 
 __IO int count = 0;
 
+float abs(float val) {
+	return (val < 0) ? -val : val;
+}
+
 void SysTick_Handler()
 {
-  if (msec > 0) {
-    msec--;
+  if (msec < 1000) {
+    msec++;
   }
+	else{
+	 msec = 0;
+	}
 }
 
 void delay(uint32_t dly_msec)
@@ -212,7 +219,7 @@ void ReceiveRMS(float ref[3],float Ref_RMS[3]){
 	
 }
 
-void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], float PercentRMS[3]){
+void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 	
 	int i;
 		
@@ -242,21 +249,16 @@ void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], float PercentRMS[3]){
 			
 			for(i=0;i<3;i++){
 				
-				if(Ref_RMS[i] > RMS[i])
-					PercentRMS[i] = (((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100);
-				
-				else
-					PercentRMS[i] = (((RMS[i]-Ref_RMS[i])/Ref_RMS[i]) * 100);
+					PercentRMS[i] = abs((((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100));
+					PercentRMS[i] = ((PercentRMS[i]/10)*10);
 					
 			}
-			if(PercentRMS[1] >= 10 && PercentRMS[1] <= 90)
-				printf("PercentRMS = %f \n",PercentRMS[1]);
+			
+
 		}
 }
 
-float abs(float val) {
-	return (val < 0) ? -val : val;
-}
+
 
 int main(void) {
 	RTC_TimeTypeDef time;
@@ -266,7 +268,7 @@ int main(void) {
 	int   period;
 	float RefRMS[3] = {0.7,0.7,0.7},RMS[3];
 	float ref[3] = {1.65,1.65,1.65};
-	float PercentRMS[3];
+	uint8_t PercentRMS[3];
 	float tmpPercentRMST[3];
 	
 	// setup
@@ -275,7 +277,7 @@ int main(void) {
 	
 	usbInit();
 	rtcInit();
-	
+	SysTick_Handler();
 	/////Set Interupt sampling : 1/2 T
 	period=getperiod(sampling);
 	interuptConf(period);
@@ -307,10 +309,10 @@ int main(void) {
 				cmd.hours = time.RTC_Hours;
 				cmd.minutes = time.RTC_Minutes;
 				cmd.seconds = time.RTC_Seconds;
-				cmd.milliseconds = 999;
-				cmd.pu1 = (abs(tmpPercentRMST[0] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[0] : 0xFF;
-				cmd.pu2 = (abs(tmpPercentRMST[1] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[1] : 0xFF;
-				cmd.pu3 = (abs(tmpPercentRMST[2] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[2] : 0xFF;
+				cmd.milliseconds = msec;
+				cmd.pu1 = (uint8_t)PercentRMS[0];//(abs(tmpPercentRMST[0] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[0] : 0xFF;
+				cmd.pu2 = (uint8_t)PercentRMS[1];//(abs(tmpPercentRMST[1] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[1] : 0xFF;
+				cmd.pu3 = (uint8_t)PercentRMS[2];//(abs(tmpPercentRMST[2] - PercentRMS[0]) >= 10) ? (uint8_t)PercentRMS[2] : 0xFF;
 				sendCmd(CmdTx_RmsChanged_Report, (uint8_t*)&cmd, sizeof(CmdTx_RmsChanged_Report_t));
 				
 				tmpPercentRMST[0] = PercentRMS[0];
