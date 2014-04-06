@@ -251,9 +251,10 @@ void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 					PercentRMS[i] = abs((((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100));
 					PercentRMS[i] = ((PercentRMS[i]/10)*10);
 					
-			}
-			
-
+				//	if(RMS[i]>Ref_RMS[i])
+				//			PercentRMS[i] += 100;
+					
+			}			
 		}
 }
 
@@ -270,7 +271,7 @@ int main(void) {
 	uint8_t PercentRMS[3];
 	float tmpPercentRMST[3];
 	
-	int temp=0;
+	//int temp=0;
 	// setup
   ledInit();
  	adcInit();
@@ -318,13 +319,12 @@ int main(void) {
 				tmpPercentRMST[0] = PercentRMS[0];
 				tmpPercentRMST[1] = PercentRMS[1];
 				tmpPercentRMST[2] = PercentRMS[2];
-				sec = time.RTC_Seconds;
 			}
 		}
-		if(sec != time.RTC_Seconds && temp == 0)
+		if(sec != time.RTC_Seconds)
 		{
+			sec = time.RTC_Seconds;
 			msec =0;
-			temp = 1;
 		}
 	}
 }
