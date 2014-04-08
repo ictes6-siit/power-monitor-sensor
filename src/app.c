@@ -7,7 +7,7 @@
 #include <adc.h>
 #include <math.h>
 
-#define VoltMax  3.3
+#define VoltMax  3.04
 #define ADCvalue 4095
 #define sampling 20
 #define Prescale 2000
@@ -251,8 +251,8 @@ void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 					PercentRMS[i] = abs((((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100));
 					PercentRMS[i] = ((PercentRMS[i]/10)*10);
 					
-				//	if(RMS[i]>Ref_RMS[i])
-				//			PercentRMS[i] += 100;
+					if(RMS[i]>Ref_RMS[i] && PercentRMS[i] >= 10)
+							PercentRMS[i] += 100;
 					
 			}			
 		}
@@ -267,7 +267,7 @@ int main(void) {
 	
 	int   period,sec;
 	float RefRMS[3] = {0.7,0.7,0.7},RMS[3];
-	float ref[3] = {1.65,1.65,1.65};
+	float ref[3] = {1.52,1.52,1.52};
 	uint8_t PercentRMS[3];
 	float tmpPercentRMST[3];
 	

@@ -82,12 +82,17 @@ void adcInit(void){
   DMA_Cmd(DMA2_Stream4, ENABLE);
 
 
-  /* Configure ADC3-1 Channel12-10 pin as analog input ******************************/
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;
+  /* Configure ADC2 Channel13 ADC1 Channel10 pin as analog input ******************************/
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_3;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
 	
+	/* Configure ADC3 Channel1 pin as analog input ******************************/
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   /* ADC Common Init **********************************************************/
   ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
@@ -107,9 +112,9 @@ void adcInit(void){
 	ADC_Init(ADC2, &ADC_InitStructure);
 	ADC_Init(ADC1, &ADC_InitStructure);
 
-  /* ADC3 regular channel12-10 configuration *************************************/
-  ADC_RegularChannelConfig(ADC3, ADC_Channel_13, 1, ADC_SampleTime_3Cycles);
-	ADC_RegularChannelConfig(ADC2, ADC_Channel_12, 1, ADC_SampleTime_3Cycles);
+  /* ADC3-1 regular channel13-11 configuration *************************************/
+  ADC_RegularChannelConfig(ADC3, ADC_Channel_1, 1, ADC_SampleTime_3Cycles);
+	ADC_RegularChannelConfig(ADC2, ADC_Channel_13, 1, ADC_SampleTime_3Cycles);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 1, ADC_SampleTime_3Cycles);
 
  /* Enable DMA request after last transfer (Single-ADC mode) */
