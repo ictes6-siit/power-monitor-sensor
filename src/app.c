@@ -221,7 +221,7 @@ void ReceiveRMS(float ref[3],float Ref_RMS[3]){
 void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 	
 	int i;
-		
+	int faction;
 		if (count == sampling){
 
 			count = 0;
@@ -249,11 +249,17 @@ void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 			for(i=0;i<3;i++){
 				
 					PercentRMS[i] = abs((((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100));
-					PercentRMS[i] = ((PercentRMS[i]/5)*5);
+				  faction = PercentRMS[i]%5;
 					
+				  if(faction>=3){
+					PercentRMS[i] = (((PercentRMS[i]/5)+1)*5);
+					}
+					else{
+				  PercentRMS[i] = ((PercentRMS[i]/5)*5);
+					}
+				
 					if(RMS[i]>Ref_RMS[i] && PercentRMS[i] >= 10)
-							PercentRMS[i] += 100;
-					
+							PercentRMS[i] += 100;				
 			}			
 		}
 }
@@ -301,9 +307,9 @@ int main(void) {
 		}
 		
 		else if(BurstMode_Enabled) {
-			if(abs(tmpPercentRMST[0] - PercentRMS[0]) >= 10 
-					|| abs(tmpPercentRMST[1] - PercentRMS[1]) >= 10 
-					|| abs(tmpPercentRMST[2] - PercentRMS[2]) >= 10) {
+			if(abs(tmpPercentRMST[0] - PercentRMS[0]) >= 5 
+					|| abs(tmpPercentRMST[1] - PercentRMS[1]) >= 5 
+					|| abs(tmpPercentRMST[2] - PercentRMS[2]) >= 5) {
 				rtcGet(&time, &date);
 				cmd.status = CmdStatus_Success;
 				cmd.year = date.RTC_Year;
@@ -323,6 +329,5 @@ int main(void) {
 				tmpPercentRMST[2] = PercentRMS[2];
 			}
 		}
-		
 	}
 }
