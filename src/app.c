@@ -35,7 +35,7 @@ float abs(float val) {
 
 void SysTick_Handler()
 {
-  if (msec < 1000) {
+  if (msec < 999) {
     msec++;
   }
 	else{
@@ -249,7 +249,7 @@ void GetRMS(float ref[3],float Ref_RMS[3], float RMS[3], uint8_t PercentRMS[3]){
 			for(i=0;i<3;i++){
 				
 					PercentRMS[i] = abs((((Ref_RMS[i]-RMS[i])/Ref_RMS[i]) * 100));
-					PercentRMS[i] = ((PercentRMS[i]/10)*10);
+					PercentRMS[i] = ((PercentRMS[i]/5)*5);
 					
 					if(RMS[i]>Ref_RMS[i] && PercentRMS[i] >= 10)
 							PercentRMS[i] += 100;
@@ -265,13 +265,11 @@ int main(void) {
 	RTC_DateTypeDef date;
 	CmdTx_RmsChanged_Report_t cmd;
 	
-	int   period,sec;
+	int   period,sec=0;
 	float RefRMS[3] = {0.7,0.7,0.7},RMS[3];
 	float ref[3] = {1.52,1.52,1.52};
 	uint8_t PercentRMS[3];
 	float tmpPercentRMST[3];
-	
-	//int temp=0;
 	// setup
   ledInit();
  	adcInit();
@@ -283,21 +281,25 @@ int main(void) {
 	period=getperiod(sampling);
 	interuptConf(period);
 	
-	
-	
 	while(1) {
 		
 		GetRMS(ref,RefRMS,RMS,PercentRMS);
 		
+		
+		rtcGet(&time, &date);
+		if(sec != time.RTC_Seconds)
+		{
+			msec = 0;
+			sec = time.RTC_Seconds;
+		}
+		
 		if(Calibrate_Enabled) {
 			ReceiveRef(ref);
 			ReceiveRMS(ref,RefRMS);
-
 			// send calibrate back
-			
-			
 			Calibrate_Enabled = 0;
 		}
+		
 		else if(BurstMode_Enabled) {
 			if(abs(tmpPercentRMST[0] - PercentRMS[0]) >= 10 
 					|| abs(tmpPercentRMST[1] - PercentRMS[1]) >= 10 
@@ -321,10 +323,6 @@ int main(void) {
 				tmpPercentRMST[2] = PercentRMS[2];
 			}
 		}
-		if(sec != time.RTC_Seconds)
-		{
-			sec = time.RTC_Seconds;
-			msec =0;
-		}
+		
 	}
 }
