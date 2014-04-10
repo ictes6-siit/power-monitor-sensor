@@ -9,9 +9,9 @@
 
 #define VoltMax  3.04
 #define ADCvalue 4095
-#define sampling 20
-#define Prescale 2000
-#define NumofMid 10
+#define sampling 40
+#define Prescale 1000
+#define NumofMid 20
 
 volatile uint16_t msec = 0;
 volatile uint8_t BurstMode_Enabled = 0;
@@ -100,7 +100,6 @@ void TIM3_IRQHandler(void){
 		{
 			printf("Out of ??\n");
 		}
-		
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
   }
 }
